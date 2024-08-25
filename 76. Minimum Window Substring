@@ -1,0 +1,54 @@
+class Solution {
+public:
+   
+   string minWindow(string source, string pattern) {
+    int sourceLength = source.size();
+    int patternLength = pattern.size();
+    
+    // Frequency maps for characters in pattern and the current window
+    vector<int> patternFrequency(128, 0);
+    vector<int> windowFrequency(128, 0);
+    
+    // Build frequency map for the pattern
+    for (char ch : pattern) {
+        patternFrequency[ch]++;
+    }
+    
+    int start = 0; // Start index of the current window
+    int minStart = -1; // Start index of the minimum window substring found
+    int minLength = INT_MAX; // Minimum length of the valid window
+    int matchedCount = 0; // Number of characters in the current window that match the frequency in pattern
+    
+    // Expand the window
+    for (int end = 0; end < sourceLength; ++end) {
+        char endChar = source[end];
+        windowFrequency[endChar]++;
+        
+        // If the current character is required and its frequency is valid, increase matched count
+        if (patternFrequency[endChar] != 0 && windowFrequency[endChar] <= patternFrequency[endChar]) {
+            matchedCount++;
+        }
+        
+        // Contract the window
+        while (matchedCount == patternLength) {
+            char startChar = source[start];
+            
+            // Update the minimum window length if the current window is smaller
+            if (end - start + 1 < minLength) {
+                minLength = end - start + 1;
+                minStart = start;
+            }
+            
+            // Remove the leftmost character from the window
+            windowFrequency[startChar]--;
+            if (patternFrequency[startChar] != 0 && windowFrequency[startChar] < patternFrequency[startChar]) {
+                matchedCount--;
+            }
+            start++;
+        }
+    }
+    
+    // Return the minimum window substring or an empty string if no valid window was found
+    return minStart == -1 ? "" : source.substr(minStart, minLength);
+}
+};
