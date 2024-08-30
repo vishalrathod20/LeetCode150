@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> anagramMap;
+
+        for(string st : strs){
+            string sortedstr = st;
+            sort(sortedstr.begin(),sortedstr.end());
+
+            anagramMap[sortedstr].push_back(st);
+        }
+
+        vector<vector<string>> result;
+
+        for(auto pair : anagramMap)
+        {
+            result.push_back(pair.second);
+        }
+        return result;
+    }
+};
