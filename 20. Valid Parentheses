@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool isValid(string s) {
+       stack<char> stk;
+
+       unordered_map<char,char> matchingBreak = {{')','('},{'}','{'},{']','['}};  
+
+       for(char ch : s){
+        if(matchingBreak.count(ch)){
+            if(stk.empty() || stk.top() != matchingBreak[ch]){
+                return false;
+            }
+            stk.pop();
+        }
+        else{
+            stk.push(ch);
+        }
+       }
+       return stk.empty();
+    }
+};
