@@ -1,0 +1,39 @@
+class Solution {
+public:
+    string simplifyPath(string path) {
+  stack<string> st;
+        stringstream ss(path);
+        string token;
+
+        while (getline(ss, token, '/')) {
+            if (token == "" || token == ".") {
+                continue;
+            }
+            if (token == "..") {
+                if (!st.empty()) {
+                    st.pop();
+                }
+            } else {
+                st.push(token);
+            }
+        }
+
+        string result = "/";
+        vector<string> temp;
+
+        while (!st.empty()) {
+            temp.push_back(st.top());
+            st.pop();
+        }
+
+        for (auto it = temp.rbegin(); it != temp.rend(); ++it) {
+            result += *it + "/";
+        }
+
+        if (result.length() > 1) {
+            result.pop_back(); // Remove the last "/"
+        }
+
+        return result;
+    }
+};
