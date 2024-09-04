@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int calculate(string s) {
+    stack<int> st;
+    int result = 0;
+    int number = 0;
+    int sign = 1;  // 1 for positive, -1 for negative
+    
+    for (int i = 0; i < s.size(); i++) {
+        char ch = s[i];
+        
+        if (isdigit(ch)) {
+            // Form the number
+            number = number * 10 + (ch - '0');
+        } else if (ch == '+' || ch == '-') {
+            // Update result with the current number and reset the number
+            result += sign * number;
+            number = 0;
+            // Update the sign for the next number
+            sign = (ch == '+') ? 1 : -1;
+        } else if (ch == '(') {
+            // Push the result and sign on the stack
+            st.push(result);
+            st.push(sign);
+            // Reset result and sign for the new sub-expression
+            result = 0;
+            sign = 1;
+        } else if (ch == ')') {
+            // Update result with the current number
+            result += sign * number;
+            number = 0;
+            // Pop the sign and apply it to the result
+            result *= st.top(); st.pop();
+            // Add the result with the previous result
+            result += st.top(); st.pop();
+        }
+    }
+    
+    // Add any remaining number to the result
+    result += sign * number;
+    
+    return result;
+    }
+};
