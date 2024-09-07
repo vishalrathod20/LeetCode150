@@ -1,0 +1,96 @@
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        // Dummy node to simplify edge cases
+        ListNode dummy(0);
+        dummy.next = head;
+        ListNode* prevGroupEnd = &dummy;
+
+        while (true) {
+            ListNode* groupStart = prevGroupEnd->next;
+            ListNode* groupEnd = prevGroupEnd;
+
+            // Check if there are at least k nodes left to reverse
+            for (int i = 0; i < k; ++i) {
+                groupEnd = groupEnd->next;
+                if (groupEnd == nullptr) {
+                    return dummy.next;
+                }
+            }
+
+            ListNode* nextGroupStart = groupEnd->next;
+            ListNode* prev = nextGroupStart;
+            ListNode* curr = groupStart;
+
+            // Reverse the group
+            for (int i = 0; i < k; ++i) {
+                ListNode* next = curr->next;
+                curr->next = prev;
+                prev = curr;
+                curr = next;
+            }
+
+            // Connect the reversed group with the previous and next groups
+            prevGroupEnd->next = prev;
+            prevGroupEnd = groupStart;
+        }
+    }
+};
+
+TC :- O(n) and SC :- O(n)
+
+
+***************************************************************************************************************************************************************************************************************
+***************************************************************************************************************************************************************************************************************
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        // Dummy node to simplify edge cases
+        ListNode dummy(0);
+        dummy.next = head;
+        ListNode* prevGroupEnd = &dummy;
+
+        while (true) {
+            ListNode* groupStart = prevGroupEnd->next;
+            ListNode* groupEnd = prevGroupEnd;
+
+            // Check if there are at least k nodes left to reverse
+            for (int i = 0; i < k; ++i) {
+                groupEnd = groupEnd->next;
+                if (groupEnd == nullptr) {
+                    return dummy.next;
+                }
+            }
+
+            ListNode* nextGroupStart = groupEnd->next;
+            ListNode* prev = nextGroupStart;
+            ListNode* curr = groupStart;
+
+            // Reverse the group
+            for (int i = 0; i < k; ++i) {
+                ListNode* next = curr->next;
+                curr->next = prev;
+                prev = curr;
+                curr = next;
+            }
+
+            // Connect the reversed group with the previous and next groups
+            prevGroupEnd->next = prev;
+            prevGroupEnd = groupStart;
+        }
+    }
+};
+
+
+TC :- O(n) SC :- O(1) 
